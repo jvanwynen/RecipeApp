@@ -1,34 +1,46 @@
-package com.example.recipeapp;
+package com.example.recipeapp.view;
 
 import android.os.Bundle;
 
+import com.example.recipeapp.R;
+import com.example.recipeapp.viewmodel.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    RecyclerView recyclerView;
+    Button editRecipe, newRecipe;
+    ViewModel mainViewModel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-      //  Toolbar toolbar = findViewById(R.id.toolbar);
-      //  setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        recyclerView = findViewById(R.id.recyclerView);
+
+        editRecipe = findViewById(R.id.button_edit_main);
+        newRecipe = findViewById(R.id.button_new_main);
+
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+
     }
 
     @Override

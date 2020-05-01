@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
-            android:text="new"
+            android:text="@string/main_button_new"
             android:textColor="@color/cardview_light_background"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
-            android:text="edit"
+            android:text="@string/main_button_edit"
             android:textColor="@color/cardview_light_background"
             android:textSize="18sp"
             android:textStyle="bold" />
