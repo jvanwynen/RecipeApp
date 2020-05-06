@@ -1,28 +1,54 @@
 package com.example.recipeapp.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Ingredient {
 
-    String ingredient;
-    double quantity;
+    @PrimaryKey(autoGenerate = true)
+    long IngredientId;
 
-    public Ingredient(String ingredient, double quantity) {
-        this.ingredient = ingredient;
+    private String name;
+
+    private Double quantity;
+
+    long belongsToRecipeID;
+
+    public Ingredient(String name, Double quantity) {
+        this.name = name;
         this.quantity = quantity;
     }
 
-    public String getIngredient() {
-        return ingredient;
+    public long getIngredientId() {
+        return IngredientId;
     }
 
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredientId(long ingredientId) {
+        IngredientId = ingredientId;
     }
 
-    public double getQuantity() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public long getBelongsToRecipeID() {
+        return belongsToRecipeID;
+    }
+
+    public void setBelongsToRecipeID(long belongsToRecipeID) {
+        this.belongsToRecipeID = belongsToRecipeID;
     }
 }

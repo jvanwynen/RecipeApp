@@ -3,33 +3,27 @@ package com.example.recipeapp.models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-import java.util.List;
-
-@Entity
+@Entity(tableName = "recipe_table")
 public class Recipe {
 
     @PrimaryKey(autoGenerate = true)
-    int id;
+    long recipeId;
 
     String name;
 
-    Date madeOn;
-    
-    List<Ingredient> ingredientList;
+    String madeOn;
 
-    public Recipe(String name, Date madeOn, List<Ingredient> ingredientList) {
+    public Recipe(String name, String madeOn) {
         this.name = name;
         this.madeOn = madeOn;
-        this.ingredientList = ingredientList;
     }
 
-    public int getId() {
-        return id;
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getName() {
@@ -40,19 +34,11 @@ public class Recipe {
         this.name = name;
     }
 
-    public Date getMadeOn() {
+    public String getMadeOn() {
         return madeOn;
     }
 
-    public void setMadeOn(Date madeOn) {
+    public void setMadeOn(String madeOn) {
         this.madeOn = madeOn;
-    }
-
-    public List<Ingredient> getIngredientList() {
-        return ingredientList;
-    }
-
-    public void setIngredientList(List<Ingredient> ingredientList) {
-        this.ingredientList = ingredientList;
     }
 }

@@ -1,44 +1,52 @@
 package com.example.recipeapp.view;
 
 import android.os.Bundle;
-
-import com.example.recipeapp.R;
-import com.example.recipeapp.viewmodel.MainViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.recipeapp.R;
+import com.example.recipeapp.models.RecipeWithIngredients;
+import com.example.recipeapp.viewmodel.RecipeViewModel;
+
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
+    private RecipeViewModel recipeViewModel;
 
     RecyclerView recyclerView;
     Button editRecipe, newRecipe;
-    ViewModel mainViewModel;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView_main_main);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        final RecipeAdapter adapter = new RecipeAdapter();
+        recyclerView.setAdapter(adapter);
 
         editRecipe = findViewById(R.id.button_edit_main);
         newRecipe = findViewById(R.id.button_new_main);
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        recipeViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+
+        recipeViewModel.getAllRecipes().observe(this, new Observer<List<RecipeWithIngredients>>() {
+            @Override
+            public void onChanged(List<RecipeWithIngredients> recipeWithIngredients) {
+                adapter.setRecipes(recipeWithIngredients);
+            }
+        });
 
 
     }
