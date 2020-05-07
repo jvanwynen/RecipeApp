@@ -6,9 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.models.RecipeWithIngredients;
-import com.example.recipeapp.persistence.LocalDatabase;
 import com.example.recipeapp.persistence.RecipeRepository;
 
 import java.util.List;

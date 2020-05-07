@@ -1,10 +1,12 @@
 package com.example.recipeapp.view;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,6 +20,8 @@ import com.example.recipeapp.viewmodel.RecipeViewModel;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int NEW_RECIPE_CODE = 1;
 
     private RecipeViewModel recipeViewModel;
 
@@ -39,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
         editRecipe = findViewById(R.id.button_edit_main);
         newRecipe = findViewById(R.id.button_new_main);
 
+        newRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NewRecipe.class);
+                startActivityForResult(intent, NEW_RECIPE_CODE);
+            }
+        });
+
         recipeViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
 
         recipeViewModel.getAllRecipes().observe(this, new Observer<List<RecipeWithIngredients>>() {
@@ -47,29 +59,17 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setRecipes(recipeWithIngredients);
             }
         });
-
-
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == NEW_RECIPE_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null && data.getExtras() != null) {
+                    RecipeWithIngredients recipeWithIngredients = data.getExtras().getParcelable(NewRecipe.INTENT_EXTRA_KEY);
+                    recipeViewModel.insert(recipeWithIngredients);
+                }
+            }
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

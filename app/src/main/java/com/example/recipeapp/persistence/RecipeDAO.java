@@ -35,19 +35,23 @@ public abstract class RecipeDAO {
     @Query("DELETE FROM recipe_table")
     public abstract void DeleteAll();
 
+    /*
+    method to insert a recipe with the corresponding ingredients
+    source: https://github.com/relativizt/android-room-one-to-many-auto-pk/blob/master/app/src/main/java/com/arc/roomonetomany/datasource/EmployeeDao.java
+     */
     @Transaction
     @Query("SELECT * FROM recipe_table")
     public abstract LiveData<List<RecipeWithIngredients>> getRecipesWithIngredients();
 
     @Transaction
-    public void insert(Recipe recipe, List<Ingredient> ingredientList) {
+    public void insert(RecipeWithIngredients recipeWithIngredients) {
 
-        // Save rowId of inserted CompanyEntity as companyId
-        final long companyId = insert(recipe);
+        // Save rowId of inserted Recipe as recipeId
+        final long recipeId = insert(recipeWithIngredients.getRecipe());
 
-        // Set companyId for all related employeeEntities
-        for (Ingredient ingredient : ingredientList) {
-            ingredient.setBelongsToRecipeID(companyId);
+        // Set recipeId for all related ingredientEntities
+        for (Ingredient ingredient : recipeWithIngredients.getIngredientList()) {
+            ingredient.setBelongsToRecipeID(recipeId);
             insert(ingredient);
         }
 

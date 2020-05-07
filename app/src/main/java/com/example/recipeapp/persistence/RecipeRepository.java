@@ -4,9 +4,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Entity;
 
-import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.models.RecipeWithIngredients;
 
 import java.util.List;
@@ -64,7 +62,7 @@ public class RecipeRepository {
         protected Void doInBackground(RecipeWithIngredients... recipeWithIngredients) {
             switch (taskCode) {
                 case TASK_INSERT:
-                    recipeDAO.insert(recipeWithIngredients[0].getRecipe(), recipeWithIngredients[0].getIngredientList());
+                    recipeDAO.insert(recipeWithIngredients[0]);
                     break;
                 case TASK_UPDATE:
                     recipeDAO.update(recipeWithIngredients[0].getRecipe());

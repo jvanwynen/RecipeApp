@@ -57,22 +57,27 @@ public abstract class LocalDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Recipe recipe = new Recipe("pasta", "01-05-2020");
-            Recipe recipe2 = new Recipe("pasta2", "01-04-2020");
-            Recipe recipe3 = new Recipe("pasta3", "01-03-2020");
+            Recipe recipe = new Recipe("pasta", "please cook", "01-05-2020");
+            Recipe recipe2 = new Recipe("rice","please bake",  "01-04-2020");
+            Recipe recipe3 = new Recipe("curry","please fry", "01-03-2020");
 
-            Ingredient ingredient = new Ingredient("sauce", 5.5);
-            Ingredient ingredient2 = new Ingredient("sauce2", 5.4);
-            Ingredient ingredient3 = new Ingredient("sauce3", 5.3);
+            Ingredient ingredient = new Ingredient("sauce", "500 gram");
+            Ingredient ingredient2 = new Ingredient("sauce2", "20 gram");
+            Ingredient ingredient3 = new Ingredient("sauce3", "10 gram");
 
             List<Ingredient> ingredientList = new ArrayList<>();
             ingredientList.add(ingredient);
             ingredientList.add(ingredient2);
             ingredientList.add(ingredient3);
 
-            recipeDAO.insert(recipe, ingredientList);
-            recipeDAO.insert(recipe2, ingredientList);
-            recipeDAO.insert(recipe3, ingredientList);
+            RecipeWithIngredients recipeWithIngredients1 = new RecipeWithIngredients(recipe, ingredientList);
+            RecipeWithIngredients recipeWithIngredients2 = new RecipeWithIngredients(recipe2, ingredientList);
+            RecipeWithIngredients recipeWithIngredients3 = new RecipeWithIngredients(recipe3, ingredientList);
+
+
+            recipeDAO.insert(recipeWithIngredients1);
+            recipeDAO.insert(recipeWithIngredients2);
+            recipeDAO.insert(recipeWithIngredients3);
             return null;
         }
     }
