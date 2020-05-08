@@ -63,12 +63,10 @@ public abstract class LocalDatabase extends RoomDatabase {
 
             Ingredient ingredient = new Ingredient("sauce", "500 gram");
             Ingredient ingredient2 = new Ingredient("sauce2", "20 gram");
-            Ingredient ingredient3 = new Ingredient("sauce3", "10 gram");
 
             List<Ingredient> ingredientList = new ArrayList<>();
             ingredientList.add(ingredient);
             ingredientList.add(ingredient2);
-            ingredientList.add(ingredient3);
 
             RecipeWithIngredients recipeWithIngredients1 = new RecipeWithIngredients(recipe, ingredientList);
             RecipeWithIngredients recipeWithIngredients2 = new RecipeWithIngredients(recipe2, ingredientList);

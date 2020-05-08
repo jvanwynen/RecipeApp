@@ -65,7 +65,7 @@ public class RecipeRepository {
                     recipeDAO.insert(recipeWithIngredients[0]);
                     break;
                 case TASK_UPDATE:
-                    recipeDAO.update(recipeWithIngredients[0].getRecipe());
+                    recipeDAO.update(recipeWithIngredients[0]);
                     break;
                 case TASK_DELETE:
                     recipeDAO.delete(recipeWithIngredients[0].getRecipe());

@@ -12,7 +12,8 @@
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,9 +21,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.NewRecipe"
+            android:name=".view.NewEditRecipe"
             android:theme="@style/AppTheme.NoActionBar"
-        />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".view.RecipeView"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

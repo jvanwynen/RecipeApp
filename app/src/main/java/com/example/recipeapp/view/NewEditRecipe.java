@@ -17,16 +17,16 @@ import com.example.recipeapp.R;
 import com.example.recipeapp.models.Ingredient;
 import com.example.recipeapp.models.Recipe;
 import com.example.recipeapp.models.RecipeWithIngredients;
-import com.example.recipeapp.viewmodel.RecipeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewRecipe extends AppCompatActivity {
+public class NewEditRecipe extends AppCompatActivity {
 
     public static final String INTENT_EXTRA_KEY = "com.example.recipeapp.view.recipeWithIngredients";
 
-    EditText recipeEditText;
+    EditText instructionsEditText;
+    RecipeWithIngredients recipeWithIngredients;
 
     List<EditText> ingredients = new ArrayList<>();
     List<EditText> quantities = new ArrayList<>();
@@ -46,6 +46,7 @@ public class NewRecipe extends AppCompatActivity {
         setRecipeEditText();
 
         saveButton = findViewById(R.id.button_new_save);
+        homeButton = findViewById(R.id.button_new_home);
 
         recipeName = findViewById(R.id.new_input_name);
         recipeDate = findViewById(R.id.new_input_date);
@@ -73,27 +74,46 @@ public class NewRecipe extends AppCompatActivity {
         quantities.add(quantity4);
         quantities.add(quantity5);
 
+        //check if we are in this activity to edit or to create a new recipe
+        if(getIntent().hasExtra(MainActivity.ID_RECIPE_CODE)){
+            recipeWithIngredients = getIntent().getParcelableExtra(MainActivity.VIEW_RECIPE_CODE);
+            recipeName.setText(recipeWithIngredients.getRecipe().getName());
+            recipeDate.setText(recipeWithIngredients.getRecipe().getMadeOn());
+            instructionsEditText.setText(recipeWithIngredients.getRecipe().getInstructions());
+
+            for (int i = 0; i < recipeWithIngredients.getIngredientList().size(); i++) {
+                ingredients.get(i).setText(recipeWithIngredients.ingredientList.get(i).getName());
+                quantities.get(i).setText(recipeWithIngredients.ingredientList.get(i).getQuantity());
+            }
+        }
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveRecipe();
             }
         });
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
     private void setRecipeEditText(){
-        recipeEditText = findViewById(R.id.textView10);
-        recipeEditText.setScroller(new Scroller(this));
-        recipeEditText.setMaxLines(1);
-        recipeEditText.setVerticalScrollBarEnabled(true);
-        recipeEditText.setMovementMethod(new ScrollingMovementMethod());
+        instructionsEditText = findViewById(R.id.textView10);
+        instructionsEditText.setScroller(new Scroller(this));
+        instructionsEditText.setMaxLines(1);
+        instructionsEditText.setVerticalScrollBarEnabled(true);
+        instructionsEditText.setMovementMethod(new ScrollingMovementMethod());
     }
 
     private void saveRecipe(){
         String name = recipeName.getText().toString().trim();
         String date = recipeDate.getText().toString().trim();
-        String instructions = recipeEditText.getText().toString().trim();
+        String instructions = instructionsEditText.getText().toString().trim();
         Recipe recipe = null;
         List<Ingredient> ingredientList = new ArrayList<>();
 
@@ -105,9 +125,20 @@ public class NewRecipe extends AppCompatActivity {
             //check if input is empty
             if(!ingredientName.equals("") && !quantity.equals("")){
                 Ingredient ingredient = new Ingredient(ingredientName, quantity);
+                if(getIntent().hasExtra(MainActivity.ID_RECIPE_CODE)) {
+                    if(recipeWithIngredients != null) {
+                        //TODO fix adding new ingredients to existing recipe
+                            long id = recipeWithIngredients.ingredientList.get(i).getIngredientId();
+                            ingredient.setIngredientId(id);
+                        }
+                }
                 ingredientList.add(ingredient);
                 if(!name.equals("") || !instructions.equals("") || !date.equals("")) {
                     recipe = new Recipe(name, instructions, date);
+                    if(getIntent().hasExtra(MainActivity.ID_RECIPE_CODE)){
+                        long id = getIntent().getLongExtra(MainActivity.ID_RECIPE_CODE, -1);
+                        recipe.setRecipeId(id);
+                    }
                 }else {
                     Toast.makeText(this, "Please fill in name, instructions and date", Toast.LENGTH_SHORT).show();
                     return;
@@ -120,7 +151,6 @@ public class NewRecipe extends AppCompatActivity {
                 break;
             }
         }
-
         if(recipe != null) {
             RecipeWithIngredients recipeWithIngredients = new RecipeWithIngredients(recipe, ingredientList);
             Intent intent = new Intent();

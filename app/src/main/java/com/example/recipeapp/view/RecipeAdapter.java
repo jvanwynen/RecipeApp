@@ -18,6 +18,7 @@ import java.util.List;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolder> {
 
     private List<RecipeWithIngredients> recipes = new ArrayList<>();
+    private OnRecipeClickedListener clickedListener;
 
     @NonNull
     @Override
@@ -41,12 +42,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
         return recipes.size();
     }
 
-    public void setRecipes(List<RecipeWithIngredients> recipes){
+    public void setRecipes(List<RecipeWithIngredients> recipes) {
         this.recipes = recipes;
         notifyDataSetChanged();
     }
 
     class RecipeHolder extends RecyclerView.ViewHolder {
+
         private TextView recipeTitle;
         private TextView recipeDate;
 
@@ -55,6 +57,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
             super(itemView);
             recipeTitle = itemView.findViewById(R.id.textview_card_title);
             recipeDate = itemView.findViewById(R.id.textview_main_date);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (clickedListener != null && position != RecyclerView.NO_POSITION) {
+                        clickedListener.onRecipeClicked(recipes.get(position));
+                    }
+                }
+            });
         }
     }
+
+    public interface OnRecipeClickedListener {
+        void onRecipeClicked(RecipeWithIngredients recipeWithIngredients);
+    }
+
+    public void setOnRecipeClickedListener(OnRecipeClickedListener onRecipeClickedListener) {
+        this.clickedListener = onRecipeClickedListener;
+    }
+
 }

@@ -32,6 +32,9 @@ public abstract class RecipeDAO {
     @Update
     public abstract void update(Recipe recipe);
 
+    @Update
+    public abstract void update(Ingredient ingredient);
+
     @Query("DELETE FROM recipe_table")
     public abstract void DeleteAll();
 
@@ -57,13 +60,27 @@ public abstract class RecipeDAO {
 
     }
 
+    @Transaction
+    public void update(RecipeWithIngredients recipeWithIngredients){
+        update(recipeWithIngredients.getRecipe());
+        for(int i = 0; i < recipeWithIngredients.getIngredientList().size(); i ++){
+            Ingredient ingredient = recipeWithIngredients.getIngredientList().get(i);
+            ingredient.setBelongsToRecipeID(recipeWithIngredients.getRecipe().getRecipeId());
+            long id = insert(ingredient);
+            if (id == -1) {
+                update(ingredient);
+            }
+        }
+
+    }
+
     // If the @Insert method receives only 1 parameter, it can return a long,
     // which is the new rowId for the inserted item.
     // https://developer.android.com/training/data-storage/room/accessing-data
     @Insert(onConflict = REPLACE)
     public abstract long insert(Recipe recipe);
 
-    @Insert
-    public abstract void insert(Ingredient ingredient);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract long insert(Ingredient ingredient);
 
 }
