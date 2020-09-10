@@ -70,8 +70,8 @@ public class RecipeView extends AppCompatActivity {
         instructions.setText(recipeWithIngredients.getRecipe().getInstructions());
 
         for (int i = 0; i < recipeWithIngredients.getIngredientList().size(); i++) {
-            ingredientNameViews.get(i).setText(recipeWithIngredients.ingredientList.get(i).getName());
-            ingredientQuantityViews.get(i).setText(recipeWithIngredients.ingredientList.get(i).getQuantity());
+            ingredientNameViews.get(i).setText(recipeWithIngredients.getIngredientList().get(i).getName());
+            ingredientQuantityViews.get(i).setText(recipeWithIngredients.getIngredientList().get(i).getQuantity());
         }
 
         homeButton.setOnClickListener(new View.OnClickListener() {

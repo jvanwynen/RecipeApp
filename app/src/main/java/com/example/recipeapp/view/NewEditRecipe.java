@@ -82,8 +82,8 @@ public class NewEditRecipe extends AppCompatActivity {
             instructionsEditText.setText(recipeWithIngredients.getRecipe().getInstructions());
 
             for (int i = 0; i < recipeWithIngredients.getIngredientList().size(); i++) {
-                ingredients.get(i).setText(recipeWithIngredients.ingredientList.get(i).getName());
-                quantities.get(i).setText(recipeWithIngredients.ingredientList.get(i).getQuantity());
+                ingredients.get(i).setText(recipeWithIngredients.getIngredientList().get(i).getName());
+                quantities.get(i).setText(recipeWithIngredients.getIngredientList().get(i).getQuantity());
             }
         }
 
@@ -128,7 +128,7 @@ public class NewEditRecipe extends AppCompatActivity {
                 if(getIntent().hasExtra(MainActivity.ID_RECIPE_CODE)) {
                     if(recipeWithIngredients != null) {
                         //TODO fix adding new ingredients to existing recipe
-                            long id = recipeWithIngredients.ingredientList.get(i).getIngredientId();
+                            long id = recipeWithIngredients.getIngredientList().get(i).getIngredientId();
                             ingredient.setIngredientId(id);
                         }
                 }
